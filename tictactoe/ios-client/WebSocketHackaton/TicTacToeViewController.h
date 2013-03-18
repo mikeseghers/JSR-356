@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "SRWebSocket.h"
 
-@interface TicTacToeViewController : UIViewController<SRWebSocketDelegate>
+@interface TicTacToeViewController : UIViewController<SRWebSocketDelegate, UICollectionViewDataSource, UICollectionViewDelegate>
 
 @end

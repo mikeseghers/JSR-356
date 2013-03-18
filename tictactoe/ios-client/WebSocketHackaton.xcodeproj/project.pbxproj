@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		273529DE16F6E1F8007D3783 /* Thinkdust - MrChalk.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 273529DD16F6E1F8007D3783 /* Thinkdust - MrChalk.ttf */; };
+		273529E116F6ECE4007D3783 /* TicTacToeCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 273529E016F6ECE4007D3783 /* TicTacToeCollectionViewCell.m */; };
 		274519D416E7B98A00361526 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 274519D316E7B98A00361526 /* UIKit.framework */; };
 		274519D616E7B98A00361526 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 274519D516E7B98A00361526 /* Foundation.framework */; };
 		274519D816E7B98A00361526 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 274519D716E7B98A00361526 /* CoreGraphics.framework */; };
@@ -27,6 +29,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		273529DD16F6E1F8007D3783 /* Thinkdust - MrChalk.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Thinkdust - MrChalk.ttf"; sourceTree = "<group>"; };
+		273529DF16F6ECE4007D3783 /* TicTacToeCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TicTacToeCollectionViewCell.h; sourceTree = "<group>"; };
+		273529E016F6ECE4007D3783 /* TicTacToeCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TicTacToeCollectionViewCell.m; sourceTree = "<group>"; };
 		274519D016E7B98A00361526 /* WebSocketHackaton.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WebSocketHackaton.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		274519D316E7B98A00361526 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		274519D516E7B98A00361526 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -125,6 +130,7 @@
 				274519E516E7B98A00361526 /* Default.png */,
 				274519E716E7B98A00361526 /* Default@2x.png */,
 				274519E916E7B98A00361526 /* Default-568h@2x.png */,
+				273529DD16F6E1F8007D3783 /* Thinkdust - MrChalk.ttf */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -147,6 +153,8 @@
 			isa = PBXGroup;
 			children = (
 				27451A0216E7C18200361526 /* Storyboard.storyboard */,
+				273529DF16F6ECE4007D3783 /* TicTacToeCollectionViewCell.h */,
+				273529E016F6ECE4007D3783 /* TicTacToeCollectionViewCell.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -216,6 +224,7 @@
 				274519E816E7B98A00361526 /* Default@2x.png in Resources */,
 				274519EA16E7B98A00361526 /* Default-568h@2x.png in Resources */,
 				27451A0316E7C18200361526 /* Storyboard.storyboard in Resources */,
+				273529DE16F6E1F8007D3783 /* Thinkdust - MrChalk.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -232,6 +241,7 @@
 				274519F916E7B9A800361526 /* NSData+SRB64Additions.m in Sources */,
 				274519FA16E7B9A800361526 /* SRWebSocket.m in Sources */,
 				27451A0716E7C37400361526 /* TicTacToeViewController.m in Sources */,
+				273529E116F6ECE4007D3783 /* TicTacToeCollectionViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -346,6 +356,7 @@
 				274519EF16E7B98A00361526 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
