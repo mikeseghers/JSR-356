@@ -46,8 +46,8 @@
     
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    NSURL *url = [NSURL URLWithString:@"ws://ec2-54-242-90-129.compute-1.amazonaws.com:80/tictactoeserver/endpoint"];
-    //NSURL *url = [NSURL URLWithString:@"ws://localhost:8080/tictactoeserver/endpoint"];
+    //NSURL *url = [NSURL URLWithString:@"ws://ec2-54-242-90-129.compute-1.amazonaws.com:80/tictactoeserver/endpoint"];
+    NSURL *url = [NSURL URLWithString:@"ws://localhost:8080/tictactoeserver/endpoint"];
     
     _socket = [[SRWebSocket alloc] initWithURL:url];
     _socket.delegate = self;

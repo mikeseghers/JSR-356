@@ -30,7 +30,7 @@ import javax.websocket.WebSocketContainer;
  */
 public class TicTacToeClient extends Application {
 
-//	private String SERVER = "http://ec2-54-242-90-129.compute-1.amazonaws.com:80/tictactoeserver/endpoint";
+//	private String SERVER = "ws://ec2-54-242-90-129.compute-1.amazonaws.com:80/tictactoeserver/endpoint";
 	private String SERVER = "ws://localhost:8080/tictactoeserver/endpoint";
 
 	final StackPane[] tile = new StackPane[9];
