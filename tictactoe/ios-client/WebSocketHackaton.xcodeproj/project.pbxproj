@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		270BA2701704673500A84C14 /* CellData.m in Sources */ = {isa = PBXBuildFile; fileRef = 270BA26F1704673500A84C14 /* CellData.m */; };
 		273529DE16F6E1F8007D3783 /* Thinkdust - MrChalk.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 273529DD16F6E1F8007D3783 /* Thinkdust - MrChalk.ttf */; };
 		273529E116F6ECE4007D3783 /* TicTacToeCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 273529E016F6ECE4007D3783 /* TicTacToeCollectionViewCell.m */; };
 		274519D416E7B98A00361526 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 274519D316E7B98A00361526 /* UIKit.framework */; };
@@ -29,6 +30,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		270BA26E1704673500A84C14 /* CellData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CellData.h; sourceTree = "<group>"; };
+		270BA26F1704673500A84C14 /* CellData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CellData.m; sourceTree = "<group>"; };
 		273529DD16F6E1F8007D3783 /* Thinkdust - MrChalk.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Thinkdust - MrChalk.ttf"; sourceTree = "<group>"; };
 		273529DF16F6ECE4007D3783 /* TicTacToeCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TicTacToeCollectionViewCell.h; sourceTree = "<group>"; };
 		273529E016F6ECE4007D3783 /* TicTacToeCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TicTacToeCollectionViewCell.m; sourceTree = "<group>"; };
@@ -77,6 +80,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		270BA26D1704670F00A84C14 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				270BA26E1704673500A84C14 /* CellData.h */,
+				270BA26F1704673500A84C14 /* CellData.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
 		274519C716E7B98A00361526 = {
 			isa = PBXGroup;
 			children = (
@@ -110,6 +122,7 @@
 		274519D916E7B98A00361526 /* WebSocketHackaton */ = {
 			isa = PBXGroup;
 			children = (
+				270BA26D1704670F00A84C14 /* Model */,
 				27451A0416E7C2EC00361526 /* Controller */,
 				27451A0116E7C15100361526 /* Views */,
 				274519E216E7B98A00361526 /* AppDelegate.h */,
@@ -242,6 +255,7 @@
 				274519FA16E7B9A800361526 /* SRWebSocket.m in Sources */,
 				27451A0716E7C37400361526 /* TicTacToeViewController.m in Sources */,
 				273529E116F6ECE4007D3783 /* TicTacToeCollectionViewCell.m in Sources */,
+				270BA2701704673500A84C14 /* CellData.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

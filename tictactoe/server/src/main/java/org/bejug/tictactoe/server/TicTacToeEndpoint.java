@@ -170,9 +170,11 @@ public class TicTacToeEndpoint {
 
             Game game = (Game) session.getUserProperties().get(GAME_PROPERTY_KEY);
             Player winner = game.checkForWinner();
-            if (winner != null) {
+            if (winner != null || game.isFull()) {
                 //Game ends
-                handlerRegistry.handle(session, TicTacToeMessage.GAME_HAS_WINNER, winner.getName());
+                if (winner != null) {
+                    handlerRegistry.handle(session, TicTacToeMessage.GAME_HAS_WINNER, winner.getName());
+                }
                 endPlayerSession(game.getPlayer1());
                 endPlayerSession(game.getPlayer2());
                 gameRegistry.gameHasFinished(game);

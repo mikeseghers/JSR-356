@@ -11,6 +11,5 @@
 @interface TicTacToeCollectionViewCell : UICollectionViewCell
 
 @property (strong, nonatomic) IBOutlet UILabel *textLabel;
-@property (assign, nonatomic) BOOL filledIn;
 
 @end

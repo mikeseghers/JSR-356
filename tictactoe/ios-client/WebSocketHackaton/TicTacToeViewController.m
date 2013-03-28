@@ -9,6 +9,7 @@
 #import "TicTacToeViewController.h"
 #import "SocketRocket/SRWebSocket.h"
 #import "TicTacToeCollectionViewCell.h"
+#import "CellData.h"
 
 #define IAM_P1_WAITING @"p1"
 #define P2_JOINED @"p2"
@@ -19,11 +20,14 @@
     NSString *_symbol;
     NSString *_otherSymbol;
     BOOL _myTurn;
+    NSMutableArray *board;
 }
 
 @property (strong, nonatomic) IBOutlet UILabel *titleLabel;
 @property (strong, nonatomic) IBOutlet UILabel *statusLabel;
 @property (strong, nonatomic) IBOutlet UICollectionView *collectionView;
+@property (strong, nonatomic) IBOutlet UIButton *startGameButton;
+- (IBAction)startGameTouched:(id)sender;
 
 @end
 
@@ -47,15 +51,125 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     //NSURL *url = [NSURL URLWithString:@"ws://ec2-54-242-90-129.compute-1.amazonaws.com:80/tictactoeserver/endpoint"];
+    
+    
+    self.titleLabel.font = MR_CHALK_BIG;
+    self.statusLabel.font = MR_CHALK_NORMAL;
+    self.startGameButton.titleLabel.font = MR_CHALK_NORMAL;
+    self.statusLabel.hidden = YES;
+}
+
+- (void) startGame {
     NSURL *url = [NSURL URLWithString:@"ws://localhost:8080/tictactoeserver/endpoint"];
     
     _socket = [[SRWebSocket alloc] initWithURL:url];
     _socket.delegate = self;
     [_socket open];
     
-    self.titleLabel.font = MR_CHALK_BIG;
-    self.statusLabel.font = MR_CHALK_NORMAL;
+    self.statusLabel.hidden = NO;
+    self.startGameButton.hidden = YES;
+    [self resetCells];
 }
+
+- (UIColor *) cellColorWithData:(id) data {
+    if (data == [NSNull null]) {
+        return [UIColor whiteColor];
+    } else if ([[data symbol] isEqualToString:_symbol]) {
+        return [UIColor greenColor];
+    } else {
+        return [UIColor redColor];
+    }
+}
+
+- (void) detectWinner {
+    CellData *data;
+    UIColor *color;
+    
+    for (int i = 0; i < 3; i++) {
+        if ([board[i][0] isEqual:board[i][1]] && [board[i][1] isEqual:board[i][2]]) {
+            color = [self cellColorWithData:board[i][0] ];
+            for (int j = 0; j < 3; j++) {
+                data = board[i][j];
+                data.color = color;
+            }
+            [self.collectionView reloadData];
+            return;
+        }
+    }
+    
+    //Check columns
+    for (int i = 0; i < 3; i++) {
+        if ([board[0][i] isEqual:board[1][i]] && [board[1][i]  isEqual:board[2][i]]) {
+            color = [self cellColorWithData:board[0][i] ];
+            for (int j = 0; j < 3; j++) {
+                data = board[j][i];
+                data.color = color;
+            }
+            [self.collectionView reloadData];
+            return;
+        }
+    }
+    
+    
+    
+    if ([board[0][0] isEqual:board[1][1]] && [board[1][1] isEqual:board[2][2]]) {
+        color = [self cellColorWithData:board[0][0] ];
+        for (int i = 0; i < 3; i++) {
+            data = board[i][i];
+            data.color = color;
+        }
+        [self.collectionView reloadData];
+        return;
+    }
+    
+    
+    if ([board[0][2] isEqual:board[1][1]] && [board[1][1] isEqual:board[2][0]]) {
+        color = [self cellColorWithData:board[0][2] ];
+        for (int i = 0; i < 3; i++) {
+            data = board[i][2 - i];
+            data.color = color;
+        }
+        [self.collectionView reloadData];
+        return;
+    }
+    
+    
+    
+}
+
+- (BOOL) isFull {
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+            if (board[i][j] == [NSNull null]) {
+                return NO;
+            }
+        }
+    }
+    return YES;
+}
+
+- (void) resetCells {
+    if (!board) {
+        board = [NSMutableArray arrayWithCapacity:3];
+    }
+    
+    for (int i = 0; i < 3; i++) {
+        NSMutableArray *cols;
+        if (board.count <= i) {
+            cols = [NSMutableArray arrayWithCapacity:3];
+            board[i] = cols;
+        } else {
+            cols = board[i];
+        }
+        
+        for (int j = 0; j < 3; j++) {
+            cols[j] = [NSNull null];
+        }
+    }
+    [self.collectionView reloadData];
+}
+
+
 
 - (void)didReceiveMemoryWarning
 {
@@ -84,11 +198,14 @@
     } else if ([message hasPrefix:@"om"]) {
         //o is played by other player (well should), put this on board
         int position = [[message substringFromIndex:2] intValue];
-        
-        NSIndexPath *indexPath = [NSIndexPath indexPathForItem:position inSection:0];
-        TicTacToeCollectionViewCell *cell = (TicTacToeCollectionViewCell *) [self.collectionView cellForItemAtIndexPath:indexPath];
-        [self setSymbol:_otherSymbol forCell:cell];
+        int row = position / 3;
+        int col = fmod(position, 3);
+        board[row][col] = [[CellData alloc] initWithSymbol:_otherSymbol];
+        [self.collectionView reloadData];
         _myTurn = YES;
+        self.statusLabel.text = @"Your oppenent made his move.";
+    } else if ([message hasPrefix:@"p4"]) {
+        [self detectWinner];
     } else {
         NSLog(@"Receive message %@, but did nothing with it", message);
     }
@@ -105,6 +222,20 @@
 
 - (void)webSocket:(SRWebSocket *)webSocket didCloseWithCode:(NSInteger)code reason:(NSString *)reason wasClean:(BOOL)wasClean {
     NSLog(@"WebSocket was closed with code %d and reason %@ (%@)", code, reason, wasClean ? @"CLEAN" : @"UNCLEAN") ;
+    self.statusLabel.text = @"Game closed";
+    self.statusLabel.hidden = YES;
+    self.startGameButton.hidden = NO;
+    
+    if ([self isFull]) {
+        UIColor *color = [UIColor redColor];
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                [board[i][j] setColor:color];
+            }
+            
+        }
+        [self.collectionView reloadData];
+    }
 }
 
 #pragma mark - Collection view datasource
@@ -117,6 +248,17 @@
     TicTacToeCollectionViewCell *cell = (TicTacToeCollectionViewCell *) [collectionView dequeueReusableCellWithReuseIdentifier:@"ButtonCell" forIndexPath:indexPath];
     
     cell.textLabel.font = MR_CHALK_BIG;
+    cell.textLabel.textColor = [UIColor whiteColor];
+    int row = indexPath.row / 3;
+    int col = fmod(indexPath.row, 3);
+    if (board[row][col] == [NSNull null]) {
+        cell.textLabel.text = nil;
+    } else {
+        CellData *cellData = board[row][col];
+        
+        cell.textLabel.text = cellData.symbol;
+        cell.textLabel.textColor = cellData.color;
+    }
     
     return cell;
 }
@@ -125,28 +267,21 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     if (_myTurn) {
-    TicTacToeCollectionViewCell *cell = (TicTacToeCollectionViewCell *) [self.collectionView cellForItemAtIndexPath:indexPath];
-    if ([self setSymbol:_symbol forCell:cell]) {
-        _myTurn = NO;
-        NSString *message = [NSString stringWithFormat:@"pm %d", indexPath.row];
-        [_socket send:message];        
-    }
+        int row = indexPath.row / 3;
+        int col = fmod(indexPath.row, 3);
+        if (board[row][col] == [NSNull null]) {
+            board[row][col] = [[CellData alloc] initWithSymbol:_symbol];
+            [self.collectionView reloadData];
+            NSString *message = [NSString stringWithFormat:@"pm %d", indexPath.row];
+            [_socket send:message];
+        }
     } else {
         self.statusLabel.text = @"Wait for the other player to make a move...";
     }
 }
 
-- (BOOL) setSymbol:(NSString *) symbol forCell:(TicTacToeCollectionViewCell *) cell {
-    BOOL result;
-    if (!cell.filledIn) {
-        cell.textLabel.text = [symbol uppercaseString];
-        cell.filledIn = YES;
-        result = YES;
-    } else {
-        NSLog(@"You don't fool me!");
-        result = NO;
-    }
-    return result;
-}
 
+- (IBAction)startGameTouched:(id)sender {
+    [self startGame];
+}
 @end

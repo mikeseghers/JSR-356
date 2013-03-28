@@ -73,6 +73,23 @@
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vcm-8K-HyR">
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="hFX-Mw-uQl"/>
+                                    <constraint firstAttribute="width" constant="135" id="phd-LP-5a0"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="Start new game">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="startGameTouched:" destination="NLB-SC-s4d" eventType="touchUpInside" id="3rj-5B-hGP"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="deviceRGB"/>
                         <constraints>
@@ -80,13 +97,16 @@
                             <constraint firstItem="OA2-lp-75R" firstAttribute="top" secondItem="Olh-Zp-cXV" secondAttribute="top" type="default" id="Cts-xG-aQ1"/>
                             <constraint firstItem="5a5-mh-HLe" firstAttribute="leading" secondItem="Olh-Zp-cXV" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="R8C-8M-L9E"/>
                             <constraint firstAttribute="centerX" secondItem="X28-Dw-axd" secondAttribute="centerX" type="user" id="UJg-pw-TeI"/>
-                            <constraint firstAttribute="bottom" secondItem="5a5-mh-HLe" secondAttribute="bottom" constant="11" id="guI-AE-l5O"/>
+                            <constraint firstItem="Vcm-8K-HyR" firstAttribute="centerX" secondItem="X28-Dw-axd" secondAttribute="centerX" type="default" id="ZU6-8m-AH4"/>
+                            <constraint firstAttribute="bottom" secondItem="Vcm-8K-HyR" secondAttribute="bottom" constant="11" id="eew-Zx-uqR"/>
                             <constraint firstItem="OA2-lp-75R" firstAttribute="leading" secondItem="Olh-Zp-cXV" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="mjt-dW-6XZ"/>
                             <constraint firstAttribute="centerY" secondItem="X28-Dw-axd" secondAttribute="centerY" type="user" id="q94-td-IhI"/>
+                            <constraint firstItem="Vcm-8K-HyR" firstAttribute="bottom" secondItem="5a5-mh-HLe" secondAttribute="bottom" type="default" id="qSm-fD-zJ3"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="collectionView" destination="X28-Dw-axd" id="vnN-XX-fR9"/>
+                        <outlet property="startGameButton" destination="Vcm-8K-HyR" id="H00-sw-H2L"/>
                         <outlet property="statusLabel" destination="5a5-mh-HLe" id="sK9-g4-u8d"/>
                         <outlet property="titleLabel" destination="OA2-lp-75R" id="9wD-xq-ppo"/>
                     </connections>
@@ -109,7 +129,9 @@
         <class className="TicTacToeViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/TicTacToeViewController.h"/>
             <relationships>
+                <relationship kind="action" name="startGameTouched:"/>
                 <relationship kind="outlet" name="collectionView" candidateClass="UICollectionView"/>
+                <relationship kind="outlet" name="startGameButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="statusLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="titleLabel" candidateClass="UILabel"/>
             </relationships>

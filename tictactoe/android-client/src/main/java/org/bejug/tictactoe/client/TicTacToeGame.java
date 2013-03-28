@@ -16,12 +16,14 @@ import java.net.URISyntaxException;
 public class TicTacToeGame implements TicTacToeWebsocketClient.TicTacToeWSClientCallback {
 
     private static final String TAG = TicTacToeGame.class.getSimpleName();
-    private static final String SERVER_URL = "ws://ec2-54-242-90-129.compute-1.amazonaws.com:80/tictactoeserver/endpoint";
+    //private static final String SERVER_URL = "ws://ec2-54-242-90-129.compute-1.amazonaws.com:80/tictactoeserver/endpoint";
+    private static final String SERVER_URL = "ws://10.0.2.2:8080/tictactoeserver/endpoint";
     private static final String WS_MESSAGE = "org.bejug.tictactoe.client.websocket_message";
     private static final String WS_EVENT = "org.bejug.tictactoe.client.websocket_event";
 
     private GameState currentState = GameState.INIT;
     private TicTacToePossibility player = TicTacToePossibility.NONE;
+    private TicTacToePossibility opponent = TicTacToePossibility.NONE;
     private TicTacToeGameCallback mCallback = sDummyCallback;
     private TicTacToeWebsocketClient wsClient;
 
@@ -114,22 +116,20 @@ public class TicTacToeGame implements TicTacToeWebsocketClient.TicTacToeWSClient
         if ("p1".equalsIgnoreCase(msg)) {
             setCurrentState(GameState.WAITING);
             Log.d(TAG, "Waiting for other player");
-        } else if ("p2".equalsIgnoreCase(msg)) {
+        } else if (msg.startsWith("p2")) {
             this.player = TicTacToePossibility.NOUGHT;
+            this.opponent = TicTacToePossibility.CROSS;
             setCurrentState(GameState.PLAYING);
             Log.d(TAG, "Game joined, playing p2 with O, and my turn");
         } else if ("p3".equalsIgnoreCase(msg)) {
             this.player = TicTacToePossibility.CROSS;
+            this.opponent = TicTacToePossibility.NOUGHT;
             setCurrentState(GameState.WAITING);
             Log.d(TAG, "Game joined, playing p1 with X, and other players turn");
-        } else if (msg.startsWith("o")) {
+        } else if (msg.startsWith("om")) {
             setCurrentState(GameState.PLAYING);
-            final int position = Integer.parseInt(msg.substring(1));
-            updateCells(position, TicTacToePossibility.NOUGHT);
-        } else if (msg.startsWith("x")) {
-            setCurrentState(GameState.PLAYING);
-            final int position = Integer.parseInt(msg.substring(1));
-            updateCells(position, TicTacToePossibility.CROSS);
+            final int position = Integer.parseInt(msg.substring(3));
+            updateCells(position, this.opponent);
         }
     }
 
@@ -149,7 +149,7 @@ public class TicTacToeGame implements TicTacToeWebsocketClient.TicTacToeWSClient
     public void onPLayersInput(final int cellPosition) {
         if (currentState == GameState.PLAYING) {
             setCurrentState(GameState.WAITING);
-            final String wsMessage = (this.player == TicTacToePossibility.CROSS) ? "x" + cellPosition : "o" + cellPosition;
+            final String wsMessage = "pm " + cellPosition;
             sendWebsocketMessage(wsMessage);
             updateCells(cellPosition, this.player);
         }

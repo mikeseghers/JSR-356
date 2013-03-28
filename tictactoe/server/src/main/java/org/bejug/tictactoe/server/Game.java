@@ -202,7 +202,24 @@ public class Game {
             }
         }
 
+        if (result == null) {
+            if (board[0][2] == board[1][1] && board[1][1] == board[2][0]) {
+                result = getPlayerForSymbol(board[0][2]);
+            }
+        }
+
         return result;
+    }
+
+    public boolean isFull() {
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (board[i][j] == null) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     /**
