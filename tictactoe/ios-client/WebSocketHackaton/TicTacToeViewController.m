@@ -274,6 +274,7 @@
             [self.collectionView reloadData];
             NSString *message = [NSString stringWithFormat:@"pm %d", indexPath.row];
             [_socket send:message];
+            _myTurn = NO;
         }
     } else {
         self.statusLabel.text = @"Wait for the other player to make a move...";
